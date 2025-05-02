@@ -26,7 +26,6 @@ lawSearch/
 │   ├── config.py           # Centralized constants (paths, model settings)
 │   ├── ingest.py           # Ingests bills into separate vectorstores
 │   └── query.py            # Queries vectorstores concurrently
-├── .env                    # (Optional) contains your OpenAI API key
 ├── requirements.txt
 └── README.md
 ```
