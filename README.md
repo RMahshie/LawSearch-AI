@@ -101,12 +101,26 @@ The tool will return per-division answers + a synthesized summary using a second
 
 ---
 
-## 📝 TODOs
+## 🚧 TODO: Next Steps for LawSearch AI
 
-- [ ] Add support for PDF bill parsing
-- [ ] Add web UI for interaction
-- [ ] Add tests for ingestion and parsing logic
-- [ ] Switch to LangChain Expression Language (LCEL)
+1. **Turn this into an actual app**  
+   I'd like to wrap the current RAG pipeline in something usable—either a command-line tool or a simple web app. Thinking about trying out `argparse` for CLI or using `Gradio` or `Streamlit` for a lightweight UI.
+
+2. **Bundle it into a single executable**  
+   Goal is to make it easy to share or run without worrying about dependencies. `pyinstaller` seems like a good option for that:
+   ```bash
+   pip install pyinstaller
+   pyinstaller --onefile src/query.py
+   ```
+
+3. **Add a clean entry point**  
+   Whether it's a `main()` function or a proper `setup.py`, I want a consistent way to launch the tool—maybe even create a terminal command like `lawsearch`.
+
+4. **Make it deployable**  
+   Eventually I'd like to Dockerize the whole thing or at least define the environment with `requirements.txt` or `conda` so it’s portable and easy to run on other machines.
+
+> Bonus: If I go with a web UI, might explore turning it into a desktop app with something like `Tauri` or `Electron`.
+
 
 ---
 
