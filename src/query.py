@@ -64,7 +64,7 @@ semaphore = asyncio.Semaphore(2)
 
 async def query_division(label: str, store: Chroma, question: str):
     async with semaphore:
-        retriever = store.as_retriever(search_kwargs={"k": 15})
+        retriever = store.as_retriever(search_kwargs={"k": 10})
         chain = RetrievalQA.from_chain_type(
             llm=qa_llm,
             retriever=retriever,
