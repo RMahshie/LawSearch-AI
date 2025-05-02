@@ -12,7 +12,7 @@
 - 📦 **Multi-VectorStore Indexing**: Creates a persistent `Chroma` vector database per bill division.
 - 🔍 **Concurrent Asynchronous Querying**: Searches all divisions simultaneously using asyncio for maximum performance.
 - 📝 **LLM-Powered Summarization**: Synthesizes results using `refine` chain logic and generates an executive summary.
-- 🔐 **OpenAI API Integration**: Uses GPT-3.5 and gpt-4o-mini to balance performance and cost.
+- 🔐 **OpenAI API Integration**: Uses GPT-o4 and gpt-4o-mini to balance performance and cost.
 
 ---
 
