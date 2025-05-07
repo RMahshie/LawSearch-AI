@@ -1,4 +1,7 @@
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Vectorstore persistence
 BASE_DIR       = os.path.dirname(os.path.dirname(__file__))

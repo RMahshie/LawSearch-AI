@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 import asyncio
 import os
+import time
+from dotenv import load_dotenv
+
+load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_chroma import Chroma
 from langchain.chains import RetrievalQA
@@ -60,7 +65,7 @@ Overall Summary:
 )
 
 # 4️⃣ Concurrency control
-semaphore = asyncio.Semaphore(2)
+semaphore = asyncio.Semaphore(15)
 
 async def query_division(label: str, store: Chroma, question: str):
     async with semaphore:
@@ -86,13 +91,21 @@ def summarize_results(results: dict[str, str]) -> str:
 
 async def main():
     question = input("Your question: ")
+
+    start_time = time.time()
+
     raw_results = await query_all(question)
     summary = summarize_results(raw_results)
+
+
+    end_time = time.time()
+    time_elapsed = end_time - start_time
 
     print("\n=== Summary ===\n", summary)
     print("\n=== Details ===")
     for lbl, ans in raw_results.items():
         print(f"\n--- {lbl} ---\n{ans}")
 
+    print(f"Time taken: {time_elapsed:.2f} seconds")
 if __name__ == '__main__':
     asyncio.run(main())
