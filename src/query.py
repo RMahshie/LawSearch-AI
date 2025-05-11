@@ -54,12 +54,22 @@ Question:
 )
 summarize_prompt = PromptTemplate(
     template="""
-Summarize each division’s findings in bullets with amounts, then give an overall summary.
+You are a policy briefing specialist preparing a financial summary for a lobbyist.
 
-Findings by Division:
+Instructions:
+1. For each division or section:
+   • Bullet key appropriation lines (amount, purpose, agency).
+   • Include the bill section or page number in parentheses.
+   • Omit any data without monetary relevance.
+2. At the end, write an “Overall Summary”:
+   • Total the dollar amounts.
+   • Highlight top 2–3 funding trends or anomalies.
+   • Note any missing or underfunded areas.
+
+Input findings:
 {formatted_findings}
 
-Overall Summary:
+Output:
 """,
     input_variables=["formatted_findings"],
 )
