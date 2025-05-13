@@ -65,7 +65,7 @@ Overall Summary:
 )
 
 # 4️⃣ Concurrency control
-semaphore = asyncio.Semaphore(15)
+semaphore = asyncio.Semaphore(20)
 
 async def query_division(label: str, store: Chroma, question: str):
     async with semaphore:
