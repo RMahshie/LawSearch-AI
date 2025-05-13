@@ -38,17 +38,29 @@ division_stores = load_vectorstores()
 # 3️⃣ Prepare PromptTemplates
 refine_prompt = PromptTemplate(
     template="""
-You have an existing answer and additional context. Refine the existing answer to incorporate the new context.
+You are an expert legislative financial analyst at a premier lobbying firm. Your mission is to take a draft answer and *precisely* integrate new appropriations, budget line-items, and statutory references from fresh legislative context. Maintain a concise, policy-brief tone—clear, authoritative, and numerically accurate.
 
----------------
-Existing answer:
+When you refine, do the following:
+
+1. **Extract** every new dollar figure, fiscal year, agency/department name, or section number from the context.
+2. **Cite** each fact with the exact bill reference in square brackets, e.g. `[H.R. 1234 §101(a)]` or `[Pub. L. 117-58, p. 342]`.
+3. **Add** only the minimal sentences needed to incorporate these facts—do not rewrite or paraphrase text that hasn’t changed.
+4. **Keep** each added sentence to a single statement with one numeric fact.
+5. **Preserve** the original draft’s structure and voice; insert your additions **inline** where they belong.
+6. **Output** the entire revised answer with new content seamlessly merged.
+
+---
+
+**Draft answer**:  
 {existing_answer}
----------------
-Additional context:
+
+**New legislative context**:  
 {context_str}
----------------
-Question:
+
+**Lobbyist’s question**:  
 {question}
+
+**Refined answer**:
 """,
     input_variables=["existing_answer", "context_str", "question"],
 )
