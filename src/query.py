@@ -38,50 +38,28 @@ division_stores = load_vectorstores()
 # 3️⃣ Prepare PromptTemplates
 refine_prompt = PromptTemplate(
     template="""
-You are an expert legislative financial analyst at a premier lobbying firm. Your mission is to take a draft answer and *precisely* integrate new appropriations, budget line-items, and statutory references from fresh legislative context. Maintain a concise, policy-brief tone—clear, authoritative, and numerically accurate.
+You have an existing answer and additional context. Refine the existing answer to incorporate the new context.
 
-When you refine, do the following:
-
-1. **Extract** every new dollar figure, fiscal year, agency/department name, or section number from the context.
-2. **Cite** each fact with the exact bill reference in square brackets, e.g. `[H.R. 1234 §101(a)]` or `[Pub. L. 117-58, p. 342]`.
-3. **Add** only the minimal sentences needed to incorporate these facts—do not rewrite or paraphrase text that hasn’t changed.
-4. **Keep** each added sentence to a single statement with one numeric fact.
-5. **Preserve** the original draft’s structure and voice; insert your additions **inline** where they belong.
-6. **Output** the entire revised answer with new content seamlessly merged.
-
----
-
-**Draft answer**:  
+---------------
+Existing answer:
 {existing_answer}
-
-**New legislative context**:  
+---------------
+Additional context:
 {context_str}
-
-**Lobbyist’s question**:  
+---------------
+Question:
 {question}
-
-**Refined answer**:
 """,
     input_variables=["existing_answer", "context_str", "question"],
 )
 summarize_prompt = PromptTemplate(
     template="""
-You are a policy briefing specialist preparing a financial summary for a lobbyist.
+Summarize each division’s findings in bullets with amounts, then give an overall summary.
 
-Instructions:
-1. For each division or section:
-   • Bullet key appropriation lines (amount, purpose, agency).
-   • Include the bill section or page number in parentheses.
-   • Omit any data without monetary relevance.
-2. At the end, write an “Overall Summary”:
-   • Total the dollar amounts.
-   • Highlight top 2–3 funding trends or anomalies.
-   • Note any missing or underfunded areas.
-
-Input findings:
+Findings by Division:
 {formatted_findings}
 
-Output:
+Overall Summary:
 """,
     input_variables=["formatted_findings"],
 )

@@ -17,5 +17,5 @@ LLM_INGEST      = "gpt-4o-mini"
 LLM_SUMMARY     = "o4-mini"
 
 # Chunking parameters
-CHUNK_SIZE      = 2000
+CHUNK_SIZE      = 1500
 CHUNK_OVERLAP   = 200

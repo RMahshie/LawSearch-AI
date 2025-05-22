@@ -1,22 +1,20 @@
-
 # LawSearch AI
 
-**LawSearch AI** is a Retrieval-Augmented Generation (RAG) system that allows users to query complex U.S. federal appropriations bills using natural language. It leverages LLMs and LangChain to chunk, embed, store, and asynchronously query legislative documents, enabling fast and interpretable budget analysis.
+**LawSearch AI** is a Retrieval-Augmented Generation (RAG) system for querying U.S. federal appropriations bills using natural language. Built with LangChain and OpenAI, it enables detailed analysis of legislative text through semantic search and contextual summarization.
 
----
+## Overview
 
-## 🧠 Features
+This project addresses the challenge of navigating complex federal budget documents by creating a searchable knowledge base that responds to natural language queries. The system processes raw legislative text into searchable chunks, indexes them in vector databases, and enables concurrent retrieval across multiple bill divisions.
 
-- ⚖️ **Appropriations Bill Parser**: Extracts and segments federal legislation (e.g., Consolidated Appropriations Act) by division.
-- 🧩 **Recursive Chunking**: Uses LangChain's `RecursiveCharacterTextSplitter` to prepare LLM-sized context windows.
-- 📦 **Multi-VectorStore Indexing**: Creates a persistent `Chroma` vector database per bill division.
-- 🔍 **Concurrent Asynchronous Querying**: Searches all divisions simultaneously using asyncio for maximum performance.
-- 📝 **LLM-Powered Summarization**: Synthesizes results using `refine` chain logic and generates an executive summary.
-- 🔐 **OpenAI API Integration**: Uses GPT-o4 and gpt-4o-mini to balance performance and cost.
+## Features
 
----
+- **Document Processing**: Parses federal appropriations bills into logical divisions
+- **Vector Indexing**: Creates persistent searchable embeddings using Chroma
+- **Concurrent Search**: Uses asyncio for parallel querying across document sections
+- **Context-Aware Responses**: Synthesizes information using GPT-4o models
+- **Persistent Storage**: Maintains embeddings for future queries without reprocessing
 
-## 📁 Project Structure
+## Project Structure
 
 ```bash
 lawSearch/
@@ -31,95 +29,65 @@ lawSearch/
 └── README.md
 ```
 
----
+## Getting Started
 
-## 🚀 Getting Started
+### Prerequisites
 
-### 1. Install Dependencies
+- Python 3.10+
+- OpenAI API key
+- 4GB+ available storage for vector databases
 
-```bash
-pip install -r requirements.txt
-```
+### Installation
 
-Make sure you have Python 3.10+ and a working [OpenAI API key](https://platform.openai.com/account/api-keys).
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/lawsearch.git
+   cd lawsearch
+   ```
 
-### 2. Set Up API Key
+2. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Export it in your environment:
+3. Configure your API key:
+   ```bash
+   cp .env.example .env
+   # Edit .env with your OpenAI API key
+   ```
 
-```bash
-export OPENAI_API_KEY=your-key-here
-```
+### Usage
 
-Or use a `.env` file:
+1. **Prepare your data**:
+   Place appropriations bill HTML files in `data/bills/`
 
-```env
-OPENAI_API_KEY=your-key-here
-```
+2. **Process documents**:
+   ```bash
+   python -m src.ingest
+   ```
 
-### 3. Ingest Legislative Files
+3. **Run queries**:
+   ```bash
+   python -m src.query "How much funding is allocated to renewable energy research?"
+   ```
 
-Place your raw `.html` bills in `data/bills/`, then run:
+## Example Queries
 
-```bash
-python -m src.ingest
-```
+- "What funding is allocated to veterans' healthcare services?"
+- "Compare defense and education spending in this appropriation."
+- "Find all grants related to climate change research."
+- "Summarize funding for border security initiatives."
 
-This will parse, split, embed, and persist per-division databases into `db/chroma/`.
+## Technical Implementation
 
-### 4. Run a Query
+LawSearch AI uses a multi-stage pipeline:
 
-```bash
-python -m src.query
-```
+1. **Document Processing**: HTML parsing with BeautifulSoup, division into logical sections
+2. **Text Chunking**: Recursive character splitting to create semantically-meaningful segments
+3. **Embedding Generation**: OpenAI's embedding models create vector representations
+4. **Retrieval**: k-NN search against embeddings to find relevant text chunks
+5. **Synthesis**: LLM-based summarization and refinement using retrieved contexts
 
-You'll be prompted to ask a question like:
-
-```
-how much funding did FEMA receive?
-```
-
-The tool will return per-division answers + a synthesized summary using a second LLM.
-
----
-
-## 📌 Example Questions
-
-- `"How much money is allocated to FEMA?"`
-- `"What funding is available for cybersecurity initiatives?"`
-- `"Summarize all environmental spending in these bills."`
-
----
-
-## ⚙️ Tech Stack
-
-- [LangChain](https://www.langchain.com/)
-- [OpenAI API](https://platform.openai.com/)
-- [Chroma](https://www.trychroma.com/)
-- [asyncio](https://docs.python.org/3/library/asyncio.html)
-- [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/)
-
----
-
-## 🚧 TODO: Next Steps for LawSearch AI
-
-1. **Turn this into an actual app**  
-   I'd like to wrap the current RAG pipeline in something usable—either a command-line tool or a simple web app. Thinking about trying out `argparse` for CLI or using `Gradio` or `Streamlit` for a lightweight UI.
-
-2. **Bundle it into a single executable**  
-   Goal is to make it easy to share or run without worrying about dependencies.
-
-3. **Add a clean entry point**  
-   Whether it's a `main()` function or a proper `setup.py`, I want a consistent way to launch the tool—maybe even create a terminal command like `lawsearch`.
-
-4. **Make it deployable**  
-   Eventually I'd like to Dockerize the whole thing or at least define the environment with `requirements.txt` or `conda` so it’s portable and easy to run on other machines.
-
-> Bonus: If I go with a web UI, might explore turning it into a desktop app with something like `Tauri` or `Electron`.
-
-
----
-
-## 📄 License
+## License
 
 MIT License © 2024 Ryan Mahshie
