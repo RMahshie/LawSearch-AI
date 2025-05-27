@@ -1,4 +1,5 @@
 # LawSearch AI
+> **Note**: This is the legacy version of LawSearch AI. The newer dynamic version featuring LangGraph with advanced workflow capabilities is proprietary and not publicly available.
 
 **LawSearch AI** is a Retrieval-Augmented Generation (RAG) system for querying U.S. federal appropriations bills using natural language. Built with LangChain and OpenAI, it enables detailed analysis of legislative text through semantic search and contextual summarization.
 
